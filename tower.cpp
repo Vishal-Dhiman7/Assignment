@@ -1,42 +1,59 @@
 
+/* Approach => we hae to find (x,y) cordinate where network quality is maximum.approach simple we are gonna check every tower and there
+                distance from other tower.if distance is less than equal to radius of tower then we are gonna find the network quality using given formula 
+                and same for the other tower as well.In the end just compare whose network quality strength is more compare to ther
+*/
+
+//Code
 #include <bits/stdc++.h>
 using namespace std;
 #include <vector>
-vector<int> findMaximumNetwork(vector<vector<int>>& tower, int radius){
-    vector<int> maxNetworkCordinate(2,0);
+vector<int> findMaximumNetwork(vector<vector<int>> &tower, int radius)
+{
+    vector<int> maxNetworkCordinate(2, 0);
     int best = 0;
-    for(int i = 0; i<tower.size(); i++){
+    for (int i = 0; i < tower.size(); i++)
+    {
         int x1 = tower[i][0];
         int y1 = tower[i][1];
         int q = tower[i][2];
-        for(int j = 0; j<tower.size(); j++){
-            if(i != j){
+        for (int j = 0; j < tower.size(); j++)
+        {
+            if (i != j)
+            {
                 int x2 = tower[j][0];
                 int y2 = tower[j][1];
                 int q2 = tower[j][2];
-                //euclidean distance formula
-                double distance = sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-                //distance should be less than equal radius for good connection
-                if(distance <= (radius)){
-                    q += (q2/(1+distance));
+                // euclidean distance formula
+                double distance = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+                // distance should be less than equal radius for good connection
+                if (distance <= (radius))
+                {
+                    q += (q2 / (1 + distance));
                 }
             }
         }
-        if(best < q){
+        if (best < q)
+        {
             best = q;
             maxNetworkCordinate[0] = tower[i][0];
             maxNetworkCordinate[1] = tower[i][1];
         }
-        else if(best == q){
+        else if (best == q)
+        {
             best = q;
-            if(maxNetworkCordinate[0] == tower[i][0]){
-                if(maxNetworkCordinate[1] > tower[i][1]){
+            if (maxNetworkCordinate[0] == tower[i][0])
+            {
+                if (maxNetworkCordinate[1] > tower[i][1])
+                {
                     maxNetworkCordinate[0] = tower[i][0];
                     maxNetworkCordinate[1] = tower[i][1];
                 }
             }
-            else{
-                if(maxNetworkCordinate[0] > tower[i][0]){
+            else
+            {
+                if (maxNetworkCordinate[0] > tower[i][0])
+                {
                     maxNetworkCordinate[0] = tower[i][0];
                     maxNetworkCordinate[1] = tower[i][1];
                 }
@@ -62,11 +79,15 @@ int main()
         tower.push_back(temp);
     }
     int radius;
-    cout<<"enter the the radius"<<endl;
-    cin>>radius;
-    vector<int> ans = findMaximumNetwork(tower,radius);
-    for(int i = 0; i<ans.size(); i++){
-        cout<<ans[i]<<" ";
+    cout << "enter the the radius" << endl;
+    cin >> radius;
+    vector<int> ans = findMaximumNetwork(tower, radius);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i] << " ";
     }
     return 0;
 }
+
+// Time complexity - O(n^2)
+// space complexity = O(1)
